@@ -7,8 +7,9 @@ Kujiraf Documents
 =====================================
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
    :caption: Contents:
 
+   environment/index.rst
    cloud/aws/index.rst
    documentation/sphinx.rst
