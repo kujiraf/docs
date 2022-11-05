@@ -21,3 +21,6 @@ asdfでバージョン管理を行う。
    asdf list
    # set primary version
    asdf global terraform 1.3.3
+
+Tips
+----------------------------------------

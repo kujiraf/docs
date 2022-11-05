@@ -3,21 +3,21 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EKS構築メモ &mdash; documents  documentation</title><link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <title>クラスタの作成 &mdash; documents  documentation</title><link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
   <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-  <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script type="text/javascript" src="../../../_static/jquery.js"></script>
-        <script type="text/javascript" src="../../../_static/underscore.js"></script>
-        <script type="text/javascript" src="../../../_static/doctools.js"></script>
-        <script type="text/javascript" src="../../../_static/language_data.js"></script>
-    <script src="../../../_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Documentation Sphinx" href="../../../documentation/sphinx.html" />
-    <link rel="prev" title="AWS EKS" href="index.html" /> 
+  <script id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../../_static/language_data.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="ノードの追加" href="node.html" />
+    <link rel="prev" title="AWS EKS" href="../index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -25,10 +25,10 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../index.html" class="icon icon-home"> documents
+            <a href="../../../../index.html" class="icon icon-home"> documents
           </a>
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -37,20 +37,22 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../../environment/index.html">Environment</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../index.html">AWS</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="index.html">AWS EKS</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">EKS構築メモ</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id1">作業手順</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id2">クラスタの作成</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id13">ノードの追加</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../environment/index.html">Environment</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">AWS</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">AWS EKS</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">クラスタの作成</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2">作業手順</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">クラスタを設定</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id7">ネットワークの設定</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id11">ログ記録の設定</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="node.html">ノードの追加</a></li>
 </ul>
 </li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../documentation/sphinx.html">Documentation Sphinx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../documentation/sphinx.html">Documentation Sphinx</a></li>
 </ul>
 
         </div>
@@ -59,19 +61,19 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">documents</a>
+          <a href="../../../../index.html">documents</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">AWS</a> &raquo;</li>
-          <li><a href="index.html">AWS EKS</a> &raquo;</li>
-      <li>EKS構築メモ</li>
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">AWS</a> &raquo;</li>
+          <li><a href="../index.html">AWS EKS</a> &raquo;</li>
+      <li>クラスタの作成</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../../_sources/cloud/aws/eks/memo.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../../../../_sources/cloud/aws/eks/getting_started/cluster.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -79,26 +81,20 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="eks">
-<h1>EKS構築メモ<a class="headerlink" href="#eks" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id1">
-<h2>作業手順<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="id1">
+<h1>クラスタの作成<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>作業手順<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>クラスタの作成<ul>
 <li>クラスタを設定</li>
 <li>ネットワークの設定</li>
 <li>ログ記録の設定</li>
 </ul>
-</li>
-<li>ノードの追加</li>
-</ul>
 </div>
-<div class="section" id="id2">
-<h2>クラスタの作成<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id3">
-<h3>クラスタを設定<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<h2>クラスタを設定<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="kubernetes">
-<h4>Kubernetesバージョン<a class="headerlink" href="#kubernetes" title="Permalink to this headline">¶</a></h4>
+<h3>Kubernetesバージョン<a class="headerlink" href="#kubernetes" title="Permalink to this headline">¶</a></h3>
 <p>最新（デフォルト）の1.23に指定</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -106,7 +102,7 @@
 </div>
 </div>
 <div class="section" id="id5">
-<h4>クラスタサービスロールの作成・設定<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
+<h3>クラスタサービスロールの作成・設定<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">ロールを作成する。ロールには以下のassumeroleのポリシーを付与する。</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
@@ -129,7 +125,7 @@
 </ul>
 </div>
 <div class="section" id="id6">
-<h4>シークレットの暗号化<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h4>
+<h3>シークレットの暗号化<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <div class="admonition-todo admonition" id="index-0">
 <p class="first admonition-title">Todo</p>
 <p class="last">今回は設定していないが、後々設定する</p>
@@ -137,9 +133,9 @@
 </div>
 </div>
 <div class="section" id="id7">
-<h3>ネットワークの設定<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id8">
-<h4>EKSクラスタのセキュリティグループの作成<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
+<h2>ネットワークの設定<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="eks">
+<h3>EKSクラスタのセキュリティグループの作成<a class="headerlink" href="#eks" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>EKSクラスタのセキュリティグループの要件は <a class="reference external" href="https://docs.aws.amazon.com/eks/latest/userguide/sec-group-reqs.html">こちら</a></li>
 </ul>
@@ -152,20 +148,20 @@
 </ul>
 </div>
 </div>
-<div class="section" id="id10">
-<h4>クラスターエンドポイントアクセス<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id9">
+<h3>クラスターエンドポイントアクセス<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <p>「パブリックおよびプライベート」を選択することで、インターネットからもクラスタのVPC内からのプライベートアクセスも可能。パブリックアクセスはジ端末からのみのアクセスとするためにCIDRブロックを制限した。</p>
 </div>
-<div class="section" id="id11">
-<h4>ネットワーキングアドオン<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id10">
+<h3>ネットワーキングアドオン<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <p>すべてデフォルトにした
 * Amazon VPC CNI: v1.10.4-eksbuild.1
 * CoreDNS: v1.8.7-eksbuild.2
 * kube-proxy: v1.23.7-eksbuild.1</p>
 </div>
 </div>
-<div class="section" id="id12">
-<h3>ログ記録の設定<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id11">
+<h2>ログ記録の設定<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
 <p>コントロールプレーンからCloudWatch Logsに以下のログを送信可能。今回はすべてONにした。</p>
 <ul class="simple">
 <li>APIサーバ<ul>
@@ -191,17 +187,13 @@
 </ul>
 </div>
 </div>
-<div class="section" id="id13">
-<h2>ノードの追加<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
-</div>
-</div>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="AWS EKS" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../../../documentation/sphinx.html" class="btn btn-neutral float-right" title="Documentation Sphinx" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../index.html" class="btn btn-neutral float-left" title="AWS EKS" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="node.html" class="btn btn-neutral float-right" title="ノードの追加" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

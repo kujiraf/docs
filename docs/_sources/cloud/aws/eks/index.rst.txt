@@ -5,4 +5,5 @@ AWS EKS
    :maxdepth: 2
    :caption: Contents:
 
-   memo.rst
+   getting_started/cluster.rst
+   getting_started/node.rst
