@@ -139,13 +139,9 @@
 <ul class="simple">
 <li>EKSクラスタのセキュリティグループの要件は <a class="reference external" href="https://docs.aws.amazon.com/eks/latest/userguide/sec-group-reqs.html">こちら</a></li>
 </ul>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p>デフォルトのセキュリティグループと同様に以下を許可した。</p>
-<ul class="last simple">
-<li>インバウンドは同一SG内のすべての通信</li>
-<li>アウトバウンドはすべての通信</li>
-</ul>
+<div class="admonition-todo admonition" id="index-1">
+<p class="first admonition-title">Todo</p>
+<p class="last">クラスタのセキュリティグループはEKSが自動で作成するので作成は不要だった。↑は取り消し線を引く。</p>
 </div>
 </div>
 <div class="section" id="id9">
@@ -154,10 +150,12 @@
 </div>
 <div class="section" id="id10">
 <h3>ネットワーキングアドオン<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
-<p>すべてデフォルトにした
-* Amazon VPC CNI: v1.10.4-eksbuild.1
-* CoreDNS: v1.8.7-eksbuild.2
-* kube-proxy: v1.23.7-eksbuild.1</p>
+<p>すべてデフォルトにした</p>
+<ul class="simple">
+<li>Amazon VPC CNI: v1.10.4-eksbuild.1</li>
+<li>CoreDNS: v1.8.7-eksbuild.2</li>
+<li>kube-proxy: v1.23.7-eksbuild.1</li>
+</ul>
 </div>
 </div>
 <div class="section" id="id11">

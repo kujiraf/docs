@@ -43,7 +43,13 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Terraform</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id2">terraformとは</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#install">Install</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#tips">Tips</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tips-moduleresourceon-off">[Tips] moduleにおけるresourceの競合するフィールドのON/OFF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tips-terraform-console">[Tips] terraform consoleでの関数の実行結果</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#for">forループ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#merge-map1map">merge 複数のmapを1つのmapにまとめる</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mergeformap">mergeとforを組み合わせて、複数のmapにおける特定の値を取得</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -102,8 +108,97 @@ asdf global terraform <span class="m">1</span>.3.3
 </pre></div>
 </div>
 </div>
-<div class="section" id="tips">
-<h2>Tips<a class="headerlink" href="#tips" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="tips-moduleresourceon-off">
+<h2>[Tips] moduleにおけるresourceの競合するフィールドのON/OFF<a class="headerlink" href="#tips-moduleresourceon-off" title="Permalink to this headline">¶</a></h2>
+<p>module側にlookup関数を使うことで実行可能</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">resource</span> <span class="s2">&quot;aws_security_group_rule&quot;</span> <span class="s2">&quot;this&quot;</span> <span class="p">{</span>
+   <span class="nx">security_group_id</span>        <span class="o">=</span> <span class="nx">aws_security_group</span><span class="p">.</span><span class="k">this</span><span class="p">.</span><span class="nx">id</span>
+   <span class="nx">for_each</span>                 <span class="o">=</span> <span class="kd">var</span><span class="p">.</span><span class="nx">rules</span>
+   <span class="nx">type</span>                     <span class="o">=</span> <span class="nx">each</span><span class="p">.</span><span class="nx">value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+   <span class="nx">protocol</span>                 <span class="o">=</span> <span class="nx">each</span><span class="p">.</span><span class="nx">value</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+   <span class="nx">from_port</span>                <span class="o">=</span> <span class="nx">each</span><span class="p">.</span><span class="nx">value</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+   <span class="nx">to_port</span>                  <span class="o">=</span> <span class="nx">each</span><span class="p">.</span><span class="nx">value</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+   <span class="nx">description</span>              <span class="o">=</span> <span class="nx">each</span><span class="p">.</span><span class="nx">value</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+   <span class="nx">cidr_blocks</span>              <span class="o">=</span> <span class="nx">lookup</span><span class="p">(</span><span class="nx">each</span><span class="p">.</span><span class="nx">value</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="s2">&quot;cidr_blocks&quot;</span><span class="p">,</span> <span class="kc">null</span><span class="p">)</span> <span class="c1">// 競合するオプション</span>
+   <span class="nx">source_security_group_id</span> <span class="o">=</span> <span class="nx">lookup</span><span class="p">(</span><span class="nx">each</span><span class="p">.</span><span class="nx">value</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="s2">&quot;source_sg&quot;</span><span class="p">,</span> <span class="kc">null</span><span class="p">)</span>   <span class="c1">// 競合するオプション</span>
+   <span class="nx">self</span>                     <span class="o">=</span> <span class="nx">lookup</span><span class="p">(</span><span class="nx">each</span><span class="p">.</span><span class="nx">value</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="s2">&quot;self&quot;</span><span class="p">,</span> <span class="kc">null</span><span class="p">)</span>        <span class="c1">// 競合するオプション</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>呼び出し元はこのようにする</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="nx">module</span> <span class="s2">&quot;eks-cluster-sg&quot;</span> <span class="p">{</span>
+   <span class="nx">source</span>      <span class="o">=</span> <span class="s2">&quot;../modules/sg&quot;</span>
+   <span class="nx">vpc_id</span>      <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">aws_vpc</span><span class="p">.</span><span class="nx">ma</span><span class="o">-</span><span class="nx">personal</span><span class="o">-</span><span class="nx">vpc</span><span class="p">.</span><span class="nx">id</span>
+   <span class="nx">name</span>        <span class="o">=</span> <span class="s2">&quot;${local.p}-eks-cluster-sg&quot;</span>
+   <span class="nx">description</span> <span class="o">=</span> <span class="s2">&quot;${local.p}-eks-cluster-sg&quot;</span>
+   <span class="nx">rules</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="s2">&quot;ingress_all_self&quot;</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ingress&quot;</span><span class="p">,</span> <span class="s2">&quot;tcp&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="p">{</span> <span class="nx">self</span> <span class="o">=</span> <span class="kc">true</span> <span class="p">}]</span> <span class="c1">// lookupのため5番目の要素をmapにしている</span>
+      <span class="s2">&quot;egress_any&quot;</span>       <span class="o">=</span> <span class="nx">local</span><span class="p">.</span><span class="nx">egress_any</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="tips-terraform-console">
+<h2>[Tips] terraform consoleでの関数の実行結果<a class="headerlink" href="#tips-terraform-console" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="for">
+<h3>forループ<a class="headerlink" href="#for" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="p">[</span><span class="k">for</span> <span class="nx">d</span> <span class="k">in</span> <span class="nx">toset</span><span class="p">([{</span><span class="nx">a</span><span class="o">=</span><span class="s2">&quot;a&quot;</span><span class="p">},{</span><span class="nx">a</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">},{</span><span class="nx">a</span><span class="o">=</span><span class="s2">&quot;c&quot;</span><span class="p">}])</span> <span class="o">:</span> <span class="nx">lookup</span><span class="p">(</span><span class="nx">d</span><span class="p">,</span><span class="s2">&quot;a&quot;</span><span class="p">)]</span>
+<span class="p">[</span>
+   <span class="s2">&quot;a&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;b&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;c&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="p">[</span><span class="k">for</span> <span class="nx">d</span> <span class="k">in</span> <span class="nx">toset</span><span class="p">([{</span><span class="nx">a</span><span class="o">=</span><span class="s2">&quot;a&quot;</span><span class="p">},{</span><span class="nx">a</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">},{</span><span class="nx">a</span><span class="o">=</span><span class="s2">&quot;c&quot;</span><span class="p">}])</span> <span class="o">:</span> <span class="nx">d</span><span class="p">.</span><span class="nx">a</span><span class="p">]</span>
+<span class="p">[</span>
+   <span class="s2">&quot;a&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;b&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;c&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="p">[</span><span class="k">for</span> <span class="nx">d</span> <span class="k">in</span> <span class="p">[{</span><span class="nx">a</span><span class="o">=</span><span class="p">{</span><span class="nx">key</span><span class="o">=</span><span class="s2">&quot;aa&quot;</span><span class="p">}},{</span><span class="nx">b</span><span class="o">=</span><span class="p">{</span><span class="nx">key</span><span class="o">=</span><span class="s2">&quot;bb&quot;</span><span class="p">}}]</span> <span class="o">:</span> <span class="nx">d</span><span class="p">]</span>
+<span class="p">[</span>
+   <span class="p">{</span>
+      <span class="s2">&quot;a&quot;</span> <span class="o">=</span> <span class="p">{</span>
+         <span class="s2">&quot;key&quot;</span> <span class="o">=</span> <span class="s2">&quot;aa&quot;</span>
+      <span class="p">}</span>
+   <span class="p">},</span>
+   <span class="p">{</span>
+      <span class="s2">&quot;b&quot;</span> <span class="o">=</span> <span class="p">{</span>
+         <span class="s2">&quot;key&quot;</span> <span class="o">=</span> <span class="s2">&quot;bb&quot;</span>
+      <span class="p">}</span>
+   <span class="p">},</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="merge-map1map">
+<h3>merge 複数のmapを1つのmapにまとめる<a class="headerlink" href="#merge-map1map" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="nx">merge</span><span class="p">([{</span><span class="nx">a</span><span class="o">=</span><span class="p">{</span><span class="nx">key</span><span class="o">=</span><span class="s2">&quot;aa&quot;</span><span class="p">}},{</span><span class="nx">b</span><span class="o">=</span><span class="p">{</span><span class="nx">key</span><span class="o">=</span><span class="s2">&quot;bb&quot;</span><span class="p">}}]...)</span>
+<span class="p">{</span>
+   <span class="s2">&quot;a&quot;</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="s2">&quot;key&quot;</span> <span class="o">=</span> <span class="s2">&quot;aa&quot;</span>
+   <span class="p">}</span>
+   <span class="s2">&quot;b&quot;</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="s2">&quot;key&quot;</span> <span class="o">=</span> <span class="s2">&quot;bb&quot;</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="mergeformap">
+<h3>mergeとforを組み合わせて、複数のmapにおける特定の値を取得<a class="headerlink" href="#mergeformap" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="p">[</span><span class="k">for</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">merge</span><span class="p">([{</span><span class="nx">a</span><span class="o">=</span><span class="p">{</span><span class="nx">key</span><span class="o">=</span><span class="s2">&quot;aa&quot;</span><span class="p">}},{</span><span class="nx">b</span><span class="o">=</span><span class="p">{</span><span class="nx">key</span><span class="o">=</span><span class="s2">&quot;bb&quot;</span><span class="p">}}]...)</span> <span class="o">:</span> <span class="nx">i</span><span class="p">.</span><span class="nx">key</span><span class="p">]</span>
+<span class="p">[</span>
+   <span class="s2">&quot;aa&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;bb&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 
