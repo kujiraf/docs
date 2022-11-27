@@ -7,3 +7,4 @@ AWS EKS
 
    getting_started/cluster.rst
    getting_started/node.rst
+   getting_started/access.rst

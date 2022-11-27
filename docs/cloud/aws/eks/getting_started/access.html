@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>クラスタへのアクセス &mdash; documents  documentation</title><link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../../_static/language_data.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="Documentation Sphinx" href="../../../../documentation/sphinx.html" />
+    <link rel="prev" title="ノードの追加" href="node.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> documents
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../environment/index.html">Environment</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">AWS</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">AWS EKS</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="cluster.html">クラスタの作成</a></li>
+<li class="toctree-l3"><a class="reference internal" href="node.html">ノードの追加</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">クラスタへのアクセス</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#kubectl">kubectlでのアクセス</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#aws">AWSマネージメントコンソールからのアクセス</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../documentation/sphinx.html">Documentation Sphinx</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">documents</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">AWS</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">AWS EKS</a></li>
+      <li class="breadcrumb-item active">クラスタへのアクセス</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../_sources/cloud/aws/eks/getting_started/access.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="id1">
+<h1>クラスタへのアクセス<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="kubectl">
+<h2>kubectlでのアクセス<a class="headerlink" href="#kubectl" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">クラスタ情報を $HOME/.kube/config に追加する</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">REGION</span><span class="o">=</span>ap-northeast-1
+<span class="nb">export</span> <span class="nv">CLUSTER_NAME</span><span class="o">=</span>ma-furukawatkr-eks-cluster
+aws eks --region <span class="nv">$REGION</span> update-kubeconfig --name <span class="nv">$CLUSTER_NAME</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>これでクラスタに対してkubectlでアクセス可能となる</p>
+</div>
+<div class="section" id="aws">
+<h2>AWSマネージメントコンソールからのアクセス<a class="headerlink" href="#aws" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">「現在のユーザーまたはロールには、この EKS クラスター上の Kubernetes オブジェクトへのアクセス権がありません」と表示されてコンソール上からk8sリソースの確認ができない場合、この手順を実施する必要がある。</p>
+</div>
+<ul>
+<li><p class="first">ConfigMapのひな型取得</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -o aws-auth-cm.yaml https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/aws-auth-cm.yaml
+</pre></div>
+</div>
+</li>
+<li><p class="first">ConfigMapを適用</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">ACCOUNT_ID</span><span class="o">=[</span>アカウントID<span class="o">]</span>
+<span class="nb">export</span> <span class="nv">NODE_ROLE</span><span class="o">=[</span>EKS Nodeのロール<span class="o">]</span>
+<span class="nb">export</span> <span class="nv">IAM_USER</span><span class="o">=[</span>AWSコンソールからアクセスするIAMユーザ名<span class="o">]</span>
+
+cat <span class="s">&lt;&lt; EOF | kubectl apply -f -</span>
+<span class="s">apiVersion: v1</span>
+<span class="s">kind: ConfigMap</span>
+<span class="s">metadata:</span>
+<span class="s">  name: aws-auth</span>
+<span class="s">  namespace: kube-system</span>
+<span class="s">data:</span>
+<span class="s">  mapRoles: |</span>
+<span class="s">    - rolearn: arn:aws:iam::${ACCOUNT_ID}:role/${NODE_ROLE}</span>
+<span class="s">      username: system:node:{{EC2PrivateDNSName}}</span>
+<span class="s">      groups:</span>
+<span class="s">        - system:bootstrappers</span>
+<span class="s">        - system:nodes</span>
+<span class="s">  mapUsers: |</span>
+<span class="s">    - userarn: arn:aws:iam::${ACCOUNT_ID}:user/${IAM_USER}</span>
+<span class="s">      username: ${IAM_USER}</span>
+<span class="s">      groups:</span>
+<span class="s">        - system:masters</span>
+<span class="s">EOF</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>AWSマネージメントコンソールからk8sリソースが見れるようになっていれば完了</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="node.html" class="btn btn-neutral float-left" title="ノードの追加" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../../../documentation/sphinx.html" class="btn btn-neutral float-right" title="Documentation Sphinx" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, kujiraf.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,10 @@
+CLI
+====
+
+kubectl
+--------
+* クラスタ情報を $HOME/.kube/config に追加する
+
+  .. code-block:: bash
+
+    aws eks --region [region] update-kubeconfig --name [cluster_name]
