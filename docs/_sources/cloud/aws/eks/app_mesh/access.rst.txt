@@ -1,0 +1,19 @@
+Getting Started
+=========================================================
+
+Install the integration components
+---------------------------------------------------------
+1. Add eks-charts repository to Helm.
+
+  .. code-block:: bash
+
+     $ helm repo add eks https://aws.github.io/eks-charts
+     $ helm repo list
+     NAME    URL                             
+     eks     https://aws.github.io/eks-charts
+
+2. Install the App Mesh k8s custome resource definitions(CRD).
+
+  .. code-block:: bash
+
+     $ kubectl apply -k "https://github.com/aws/eks-charts/stable/appmesh-controller/crds?ref=master"

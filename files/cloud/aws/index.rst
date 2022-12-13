@@ -6,3 +6,4 @@ AWS
    :caption: Contents:
 
    eks/index.rst
+   app_mesh/index.rst
